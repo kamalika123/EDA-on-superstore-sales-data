@@ -1,0 +1,30 @@
+select count(*)
+from superstore..[Orders$]
+
+
+select * from superstore..[Orders$]
+order by 1
+
+
+select [Order ID], count(*) from superstore..[Orders$]
+group by [Order ID] having count(*)>1
+
+--checking duplicates--
+
+select [row id],[order id],count(*) from superstore..[Orders$]
+group by [row id],[order id] having count(*)>1
+
+--item cannot be shipped untill its getting ordered--
+select * from superstore..[Orders$] where [Ship Date]<[Order Date]
+
+select distinct [ship mode] from superstore..[Orders$] 
+
+select min(a.num_of_days), max(a.num_of_days) from
+(select DATEDIFF(day,[order date],[ship date]) as num_of_days, *
+from superstore..[Orders$] where [Ship Mode]='Second Class') a
+
+--if a customer has ordered multiple items--
+select [customer id], [order id] , count(*) from superstore..[Orders$]
+group by [customer id], [order id]
+order by [customer id]
+
